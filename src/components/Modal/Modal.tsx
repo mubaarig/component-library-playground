@@ -1,6 +1,6 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useTheme } from '../../styles/ThemeProvider';
+import {useTheme} from './../../styles/themes/ThemeProvider';
 import { spacing } from '../../tokens/spacing';
 import { typography } from '../../tokens/typography';
 import { Button } from '../Button/Button';
