@@ -1,87 +1,81 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { Modal } from '../components/Modal/Modal';
 import { Button } from '../components/Button/Button';
+import { useState } from 'react';
 
-const meta: Meta<typeof Button> = {
-  title: 'Components/Button',
-  component: Button,
+const meta = {
+  title: 'Components/Modal',
+  component: Modal,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
   argTypes: {
-    variant: {
-      control: { type: 'select' },
-      options: ['primary', 'secondary', 'outline', 'ghost'],
-    },
     size: {
       control: { type: 'select' },
       options: ['sm', 'md', 'lg'],
     },
-    disabled: {
-      control: { type: 'boolean' },
-    },
-    fullWidth: {
-      control: { type: 'boolean' },
-    },
-    onClick: { action: 'clicked' },
   },
-};
+} satisfies Meta<typeof Modal>;
 
 export default meta;
-type Story = StoryObj<typeof Button>;
+type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
-  args: {
-    variant: 'primary',
-    children: 'Button',
-  },
+// Modal with trigger button
+const ModalExample = ({ args }: { args: any }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div>
+      <Button onClick={() => setIsOpen(true)}>Open Modal</Button>
+      <Modal
+        {...args}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        actions={
+          <>
+            <Button variant="outline" onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={() => setIsOpen(false)}>
+              Confirm
+            </Button>
+          </>
+        }
+      />
+    </div>
+  );
 };
 
-export const Secondary: Story = {
+export const Default: Story = {
   args: {
-    variant: 'secondary',
-    children: 'Button',
+    title: 'Modal Title',
+    children: 'This is the modal content. You can put any React component here.',
   },
-};
-
-export const Outline: Story = {
-  args: {
-    variant: 'outline',
-    children: 'Button',
-  },
-};
-
-export const Ghost: Story = {
-  args: {
-    variant: 'ghost',
-    children: 'Button',
-  },
+  render: (args) => <ModalExample args={args} />,
 };
 
 export const Small: Story = {
   args: {
+    title: 'Small Modal',
     size: 'sm',
-    children: 'Small Button',
+    children: 'This is a small modal.',
   },
+  render: (args) => <ModalExample args={args} />,
 };
 
 export const Large: Story = {
   args: {
+    title: 'Large Modal',
     size: 'lg',
-    children: 'Large Button',
+    children: 'This is a large modal with more content.',
   },
+  render: (args) => <ModalExample args={args} />,
 };
 
-export const Disabled: Story = {
+export const WithoutTitle: Story = {
   args: {
-    disabled: true,
-    children: 'Disabled Button',
+    children: 'This modal has no title.',
   },
-};
-
-export const FullWidth: Story = {
-  args: {
-    fullWidth: true,
-    children: 'Full Width Button',
-  },
+  render: (args) => <ModalExample args={args} />,
 };
