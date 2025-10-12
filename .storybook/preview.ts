@@ -1,28 +1,25 @@
-
-
-
-import type { Preview } from '@storybook/react-vite'
+import type { Preview } from '@storybook/react';
+import { ThemeProvider } from '../src/styles/ThemeProvider';
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
-import { ThemeProvider } from '../src/styles/themes/ThemeProvider'; // adjust path
 
 const preview: Preview = {
+  parameters: {
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/i,
+      },
+    },
+  },
   decorators: [
     (Story) => (
-    <MemoryRouter>
-      </MemoryRouter>
-      <MemoryRouter>
-        <ThemeProvider>
+      <ThemeProvider>
+        <div style={{ padding: '2rem' }}>
           <Story />
-        </ThemeProvider>
-      </MemoryRouter>
-    )
+        </div>
+      </ThemeProvider>
+    ),
   ],
-  parameters: { layout: 'centered' },
 };
 
 export default preview;
-
-
-
-  
